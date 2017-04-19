@@ -130,13 +130,76 @@ public:
 		cursor_item = first;
 		while (cursor++ < count) {
 			if (cursor_item->data == item.data) {
-				if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
-				if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
 				return true;
 			}
 			cursor_item = cursor_item->next;
 		}
 		return false;
+	}
+
+	void sort(bool desc=false) {
+		bool inv = 0;
+		size_t limit = 0;
+		ListItem<T>* comp;
+		T tmp;
+		cursor = 0;
+		cursor_item = first;
+		T lmax = cursor_item->data,
+		max = cursor_item->data;
+		T lmin = cursor_item->data,
+		min = cursor_item->data;
+		for (;;) {
+			if (!inv) {
+				cursor += 1;
+				if (cursor < count - limit){
+					cursor_item = cursor_item->next;
+				} else {
+					cursor -= 2;
+					cursor_item = cursor_item->prev;
+					inv = 1;
+					if (desc && (lmin < min || lmax < max)) {
+						limit++;
+						min = max = cursor_item->data;
+					} else if (lmin > min || lmax > max) {
+						limit++;
+						min = max = cursor_item->data;
+					}
+					lmin = min;
+					lmax = max;
+				}
+			} else {
+				cursor -= 1;
+				if (cursor > limit) {
+					cursor_item = cursor_item->prev;
+				} else {
+					cursor += 2;
+					cursor_item = cursor_item->next;
+					inv = 0;
+					if (desc && (lmin < min || lmax < max)) {
+						limit++;
+						min = max = cursor_item->data;
+					} else if (lmin > min || lmax > max) {
+						limit++;
+						min = max = cursor_item->data;
+					}
+					lmin = min;
+					lmax = max;
+				}
+			}
+			comp = cursor_item->prev;
+			if (comp->data > max) max = comp->data;
+			if (comp->data < min) min = comp->data;
+			if (desc && cursor_item->data > comp->data) {
+				tmp = cursor_item->data;
+				cursor_item->data = comp->data;
+				comp->data = tmp;
+			} else if (!desc && cursor_item->data < comp->data) {
+				tmp = cursor_item->data;
+				cursor_item->data = comp->data;
+				comp->data = tmp;
+			}
+			if (count/2 == limit) break;
+		}
 	}
 
 	size_t size() {
@@ -161,10 +224,6 @@ public:
 		return tmp;
 	}
 
-	void operator+= (T d) {
-		append_back(d);
-	}
-
 	List<T>& operator<< (T d) {
 		append_back(d);
 		return *this;
@@ -175,21 +234,98 @@ public:
 		return *this;
 	}
 
+	// number calculation
+	List<T> operator+ (T n) {
+		List<T> tmp;
+		for (size_t i=0; i < count; i++) {
+			tmp.append_back(get(i) + n);
+		}
+		return tmp;
+	}
+
+	void operator+= (T n) {
+		cursor = 0;
+		cursor_item = first;
+		for (size_t i=0; i < count; i++) {
+			cursor_item->data += n;
+			cursor_item = cursor_item->next;
+		}
+		cursor_item = nullptr;
+	}
+
+	List<T> operator- (T n) {
+		List<T> tmp;
+		for (size_t i=0; i < count; i++) {
+			tmp.append_back(get(i) - n);
+		}
+		return tmp;
+	}
+
+	void operator-= (T n) {
+		cursor = 0;
+		cursor_item = first;
+		for (size_t i=0; i < count; i++) {
+			cursor_item->data -= n;
+			cursor_item = cursor_item->next;
+		}
+		cursor_item = nullptr;
+	}
+
+	List<T> operator* (T n) {
+		List<T> tmp;
+		for (size_t i=0; i < count; i++) {
+			tmp.append_back(get(i) * n);
+		}
+		return tmp;
+	}
+
+	void operator*= (T n) {
+		cursor = 0;
+		cursor_item = first;
+		for (size_t i=0; i < count; i++) {
+			cursor_item->data *= n;
+			cursor_item = cursor_item->next;
+		}
+		cursor_item = nullptr;
+	}
+
+	List<T> operator/ (T n) {
+		List<T> tmp;
+		for (size_t i=0; i < count; i++) {
+			tmp.append_back(get(i) / n);
+		}
+		return tmp;
+	}
+
+	void operator/= (T n) {
+		cursor = 0;
+		cursor_item = first;
+		for (size_t i=0; i < count; i++) {
+			cursor_item->data /= n;
+			cursor_item = cursor_item->next;
+		}
+		cursor_item = nullptr;
+	}
+
 	// remove same
 	List<T> operator- (List<T>& another) {
 		List<T> tmp;
 		for (size_t i=0; i < count; i++) {
-			if ( another.in( ListItem<T>(get(i)) ) )
-				tmp.pop(ListItem<T>(get(i)));
+			tmp.append_back(get(i));
+		}
+		for (size_t i=0; i < another.size(); i++) {
+			if ( tmp.in( ListItem<T>(another.get(i)) ) ) {
+				tmp.pop(ListItem<T>(another.get(i)));
+			}
 		}
 		return tmp;
 	}
 
 	// remove same to this
 	void operator-= (List<T>& another) {
-		for (size_t i=0; i < count; i++) {
-			if ( another.in( ListItem<T>(get(i)) ) )
-				pop(ListItem<T>(get(i)));
+		for (size_t i=0; i < another.size(); i++) {
+			if ( in( ListItem<T>(another.get(i)) ) )
+				pop(ListItem<T>(another.get(i)));
 		}
 	}
 
@@ -215,12 +351,12 @@ public:
 	// union
 	List<T> operator| (List<T>& another) {
 		List<T> tmp;
-		for (size_t i=0; i < another.size(); i++) {
-			tmp.append_back(another.get(i));
-		}
 		for (size_t i=0; i < count; i++) {
-			if (!another.in( ListItem<T>(get(i)) ))
-				tmp.append_back(get(i));
+			tmp.append_back(get(i));
+		}
+		for (size_t i=0; i < another.size(); i++) {
+			if (!in( ListItem<T>(another.get(i)) ))
+				tmp.append_front(another.get(i));
 		}
 		return tmp;
 	}

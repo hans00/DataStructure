@@ -79,5 +79,55 @@ int main(int argc, char const *argv[])
 	cout << sel << endl;
 	cout << sel.size() << endl;
 
+	cout << "==================================" << endl;
+	cout << "Calculation" << endl;
+
+	cout << list << endl;
+
+	list += 2;
+
+	cout << "list += 2" << endl;
+
+	cout << list << endl;
+
+	list -= 2;
+
+	cout << "list -= 2" << endl;
+
+	cout << list << endl;
+
+	list *= 2;
+
+	cout << "list *= 2" << endl;
+
+	cout << list << endl;
+
+	list /= 2;
+
+	cout << "list /= 2" << endl;
+
+	cout << list << endl;
+
+
+	cout << "list + 2" << endl;
+
+	List<int> t = list+2;
+
+	cout << t << endl;
+
+	cout << "==================================" << endl;
+
+	cout << "list2 DESC" << endl;
+
+	list2.sort(1);
+
+	cout << list2 << endl;
+
+	cout << "list2 ASC" << endl;
+
+	list2.sort(0);
+
+	cout << list2 << endl;
+
 	return 0;
 }

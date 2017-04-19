@@ -57,6 +57,8 @@ list.pop(0); // remove by index and return data
 // [1, 2, 3, 4, 1, 1]
 list.pop(ListItem<int>(1)); // First matched item
 // [2, 3, 4, 1, 1]
+list.sort(1); // Sort data sort(true) for DESC and false for ASC (default=false)
+// [4, 3, 2, 1, 1]
 list.clean();
 // []
 ```
@@ -89,4 +91,8 @@ list | sel; // union
 // [1, 2, 3, 4, 5, 6]
 list & sel; // and
 // []
+list + 2; // number calcuation (avaiable + - * /)
+// [2]
+list +=2; // same
+// [2]
 ```
