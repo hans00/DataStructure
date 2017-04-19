@@ -1,15 +1,15 @@
-# Awesome Data Structure
+# Data Structures and Algorithms
 
 -----------------------------
 
 ## array.cpp
 
-Array Index calc
+Array Index Algorithms
 
 ## calc.cpp
 
-Calculator
+Calculator Algorithms
 
 ## list/
 
-awesome link list
+Awesome Link List
