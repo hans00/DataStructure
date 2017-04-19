@@ -1,6 +1,10 @@
 #include <iostream>
 #include <stdexcept>
 
+#ifndef nullptr
+#define nullptr NULL
+#endif
+
 template<typename T>
 struct ListItem {
 	ListItem() : prev(nullptr), next(nullptr) {}
@@ -24,7 +28,7 @@ public:
 	}
 
 	void clean() {
-		while (count) {
+		while (count > 0) {
 			pop_back();
 		}
 	}
@@ -34,10 +38,9 @@ public:
 			first = last = new ListItem<T>;
 			first->data = data;
 		} else {
-			last->next = new ListItem<T>;
+			last->next = new ListItem<T>(data);
 			last->next->prev = last;
 			last = last->next;
-			last->data = data;
 		}
 		count++;
 	}
@@ -47,10 +50,9 @@ public:
 			first = last = new ListItem<T>;
 			first->data = data;
 		} else {
-			first->prev = new ListItem<T>;
+			first->prev = new ListItem<T>(data);
 			first->prev->next = first;
 			first = first->prev;
-			first->data = data;
 		}
 		count++;
 	}
@@ -60,10 +62,11 @@ public:
 			throw std::invalid_argument( "Zero size." );
 		}
 		T tmp = last->data;
-		last = last->prev;
+		if (last->prev != nullptr) last = last->prev;
 		delete last->next;
 		last->next = nullptr;
 		count--;
+		if (count == 0) first = last = nullptr;
 		return tmp;
 	}
 
@@ -72,8 +75,15 @@ public:
 			throw std::invalid_argument( "Out of index. (pop)" );
 		}
 		T tmp = get(index);
-		if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
-		if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
+		if (index == 0) {
+			if (cursor_item->next != nullptr) {
+				cursor_item->next->prev = cursor_item->prev;
+				first = cursor_item->next;
+			}
+		} else {
+			if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
+			if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
+		}
 		cursor = 0;
 		delete cursor_item;
 		cursor_item = nullptr;
@@ -86,8 +96,15 @@ public:
 		cursor_item = first;
 		while (cursor++ < count) {
 			if (cursor_item->data == item.data) {
-				if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
-				if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
+				if (cursor-1 == 0) {
+					if (cursor_item->next != nullptr) {
+						cursor_item->next->prev = cursor_item->prev;
+						first = cursor_item->next;
+					}
+				} else {
+					if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
+					if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
+				}
 				cursor = 0;
 				delete cursor_item;
 				cursor_item = nullptr;
