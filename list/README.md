@@ -96,3 +96,7 @@ list + 2; // number calcuation (avaiable + - * /)
 list += 2; // same
 // [3]
 ```
+
+> [Warrning] Use operator may spen much memory.
+> 
+> Because C++ no garbage collection

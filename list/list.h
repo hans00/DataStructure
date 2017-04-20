@@ -383,7 +383,7 @@ public:
 	}
 
 	// compare list
-	bool operator== (List<T> comp) {
+	bool operator== (List<T>& comp) {
 		if (count != comp.size()) return false;
 		cursor = 0;
 		cursor_item = first;
