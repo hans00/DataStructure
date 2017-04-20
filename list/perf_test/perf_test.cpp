@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (KB):" << mem1/1024 << endl;
-	cout << "Spen mem (KB):" << (mem1 - mem0)/1024 << endl;
+	cout << "Use mem (KB):" << (mem1 - mem0)/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -50,7 +50,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
+	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
+	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -90,7 +90,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
+	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -110,7 +110,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
+	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -130,7 +130,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
+	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -150,7 +150,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (B):" << (mem1 - mem0) << endl;
+	cout << "Use mem (B):" << (mem1 - mem0) << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
@@ -170,7 +170,7 @@ int main(int argc, char const *argv[])
 
 	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Spen mem (B):" << (mem1 - mem0) << endl;
+	cout << "Use mem (B):" << (mem1 - mem0) << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
