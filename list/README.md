@@ -92,7 +92,7 @@ list | sel; // union
 list & sel; // and
 // []
 list + 2; // number calcuation (avaiable + - * /)
-// [2]
-list +=2; // same
-// [2]
+// [3]
+list += 2; // same
+// [3]
 ```
