@@ -1,9 +1,11 @@
 #include <iostream>
 #include <stdexcept>
 
-#ifndef nullptr
-#define nullptr NULL
-#endif
+#ifndef LIST_H
+
+#define LIST_H
+
+#define list_nullptr (ListItem<T>*)NULL
 
 template<typename T>
 void swap(T* a, T* b) {
@@ -14,8 +16,8 @@ void swap(T* a, T* b) {
 
 template<typename T>
 struct ListItem {
-	ListItem() : prev(nullptr), next(nullptr) {}
-	ListItem(T d) : data(d), prev(nullptr), next(nullptr) {}
+	ListItem() : prev(list_nullptr), next(list_nullptr) {}
+	ListItem(T d) : data(d), prev(list_nullptr), next(list_nullptr) {}
 	ListItem<T>* prev;
 	T data;
 	ListItem<T>* next;
@@ -29,7 +31,7 @@ class List
 public:
 
 	List() {
-		cursor_item = first = last = nullptr;
+		cursor_item = first = last = list_nullptr;
 		cursor = 0;
 		count = 0;
 	}
@@ -69,11 +71,11 @@ public:
 			throw std::invalid_argument( "Zero size." );
 		}
 		T tmp = last->data;
-		if (last->prev != nullptr) last = last->prev;
+		if (last->prev != list_nullptr) last = last->prev;
 		delete last->next;
-		last->next = nullptr;
+		last->next = list_nullptr;
 		count--;
-		if (count == 0) first = last = nullptr;
+		if (count == 0) first = last = list_nullptr;
 		return tmp;
 	}
 
@@ -83,17 +85,17 @@ public:
 		}
 		T tmp = get(index);
 		if (index == 0) {
-			if (cursor_item->next != nullptr) {
+			if (cursor_item->next != list_nullptr) {
 				cursor_item->next->prev = cursor_item->prev;
 				first = cursor_item->next;
 			}
 		} else {
-			if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
-			if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
+			if (cursor_item->prev != list_nullptr) cursor_item->prev->next = cursor_item->next;
+			if (cursor_item->next != list_nullptr) cursor_item->next->prev = cursor_item->prev;
 		}
 		cursor = 0;
 		delete cursor_item;
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		count--;
 		return tmp;
 	}
@@ -104,17 +106,17 @@ public:
 		while (cursor++ < count) {
 			if (cursor_item->data == item.data) {
 				if (cursor-1 == 0) {
-					if (cursor_item->next != nullptr) {
+					if (cursor_item->next != list_nullptr) {
 						cursor_item->next->prev = cursor_item->prev;
 						first = cursor_item->next;
 					}
 				} else {
-					if (cursor_item->prev != nullptr) cursor_item->prev->next = cursor_item->next;
-					if (cursor_item->next != nullptr) cursor_item->next->prev = cursor_item->prev;
+					if (cursor_item->prev != list_nullptr) cursor_item->prev->next = cursor_item->next;
+					if (cursor_item->next != list_nullptr) cursor_item->next->prev = cursor_item->prev;
 				}
 				cursor = 0;
 				delete cursor_item;
-				cursor_item = nullptr;
+				cursor_item = list_nullptr;
 				count--;
 				return;
 			}
@@ -127,7 +129,7 @@ public:
 		if (count == 0 || index >= count) {
 			throw std::invalid_argument( "Out of index. (get)" );
 		}
-		if (cursor > count || cursor_item == nullptr) {
+		if (cursor > count || cursor_item == list_nullptr) {
 			if (index >= count/2) {
 				cursor = count-1;
 				cursor_item = last;
@@ -216,7 +218,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return tmp;
 	}
 
@@ -246,7 +248,7 @@ public:
 			cursor_item->data += n;
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 	}
 
 	List<T> operator- (T n) {
@@ -264,7 +266,7 @@ public:
 			cursor_item->data -= n;
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 	}
 
 	List<T> operator* (T n) {
@@ -282,7 +284,7 @@ public:
 			cursor_item->data *= n;
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 	}
 
 	List<T> operator/ (T n) {
@@ -300,7 +302,7 @@ public:
 			cursor_item->data /= n;
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 	}
 
 	// remove same
@@ -387,7 +389,7 @@ public:
 			if (cursor_item->data != comp[i]) return false;
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return true;
 	}
 
@@ -404,7 +406,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return list;
 	}
 
@@ -421,7 +423,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return list;
 	}
 
@@ -438,7 +440,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return list;
 	}
 
@@ -455,7 +457,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return list;
 	}
 
@@ -472,7 +474,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return list;
 	}
 
@@ -489,7 +491,7 @@ public:
 			}
 			cursor_item = cursor_item->next;
 		}
-		cursor_item = nullptr;
+		cursor_item = list_nullptr;
 		return list;
 	}
 
@@ -513,3 +515,5 @@ protected:
 	size_t cursor;
 	size_t count;
 };
+
+#endif
