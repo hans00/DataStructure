@@ -6,6 +6,13 @@
 #endif
 
 template<typename T>
+void swap(T* a, T* b) {
+	T t = *a;
+	*a = *b;
+	*b = t;
+}
+
+template<typename T>
 struct ListItem {
 	ListItem() : prev(nullptr), next(nullptr) {}
 	ListItem(T d) : data(d), prev(nullptr), next(nullptr) {}
@@ -161,61 +168,33 @@ public:
 		T tmp;
 		cursor = 0;
 		cursor_item = first;
-		T lmax = cursor_item->data,
-		max = cursor_item->data;
-		T lmin = cursor_item->data,
-		min = cursor_item->data;
-		for (;;) {
-			if (!inv) {
-				cursor += 1;
-				if (cursor < count - limit){
-					cursor_item = cursor_item->next;
-				} else {
-					cursor -= 2;
-					cursor_item = cursor_item->prev;
-					inv = 1;
-					if (desc && (lmin < min || lmax < max)) {
-						limit++;
-						min = max = cursor_item->data;
-					} else if (lmin > min || lmax > max) {
-						limit++;
-						min = max = cursor_item->data;
-					}
-					lmin = min;
-					lmax = max;
-				}
-			} else {
-				cursor -= 1;
-				if (cursor > limit) {
-					cursor_item = cursor_item->prev;
-				} else {
-					cursor += 2;
-					cursor_item = cursor_item->next;
-					inv = 0;
-					if (desc && (lmin < min || lmax < max)) {
-						limit++;
-						min = max = cursor_item->data;
-					} else if (lmin > min || lmax > max) {
-						limit++;
-						min = max = cursor_item->data;
-					}
-					lmin = min;
-					lmax = max;
+		bool notSorted = true;
+		while (notSorted) {
+			notSorted = false;
+			for (cursor = 0; cursor < count - 1; ++cursor) {
+				cursor_item = cursor_item->next;
+				comp = cursor_item->prev;
+				if (desc && comp->data < cursor_item->data) {
+					swap<T>(&(cursor_item->data), &(comp->data));
+					notSorted = true;
+				} else if (!desc && comp->data > cursor_item->data) {
+					swap<T>(&(cursor_item->data), &(comp->data));
+					notSorted = true;
 				}
 			}
-			comp = cursor_item->prev;
-			if (comp->data > max) max = comp->data;
-			if (comp->data < min) min = comp->data;
-			if (desc && cursor_item->data > comp->data) {
-				tmp = cursor_item->data;
-				cursor_item->data = comp->data;
-				comp->data = tmp;
-			} else if (!desc && cursor_item->data < comp->data) {
-				tmp = cursor_item->data;
-				cursor_item->data = comp->data;
-				comp->data = tmp;
+			if (!notSorted) break;
+			notSorted = false;
+			for (cursor = count - 1; cursor > 0; --cursor) {
+				cursor_item = cursor_item->prev;
+				comp = cursor_item->next;
+				if (desc && comp->data > cursor_item->data) {
+					swap<T>(&(cursor_item->data), &(comp->data));
+					notSorted = true;
+				} else if (!desc && comp->data < cursor_item->data) {
+					swap<T>(&(cursor_item->data), &(comp->data));
+					notSorted = true;
+				}
 			}
-			if (count/2 == limit) break;
 		}
 	}
 
