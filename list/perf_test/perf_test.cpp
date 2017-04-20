@@ -1,16 +1,8 @@
 #include <platformstl/performance/performance_counter.hpp>
 #include <sys/resource.h>
 #include <iostream>
-#include "list.h"
-
-long getMemoryUsage() 
-{
-  struct rusage usage;
-  if(0 == getrusage(RUSAGE_SELF, &usage))
-    return usage.ru_maxrss; // bytes
-  else
-    return 0;
-}
+#include "../list.hpp"
+#include "memory.hpp"
 
 using namespace std;
 int main(int argc, char const *argv[])
@@ -21,7 +13,7 @@ int main(int argc, char const *argv[])
 
 	cout << "Initlize (do 1000000 times)." << endl;
 
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (KB):" << mem0/1024 << endl;
 
 	c.start();
@@ -31,7 +23,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (KB):" << mem1/1024 << endl;
 	cout << "Spen mem (KB):" << (mem1 - mem0)/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -43,7 +35,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "Clean and insert 1000000 items (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (KB):" << mem0/1024 << endl;
 
 	c.start();
@@ -56,7 +48,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -66,7 +58,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "list *= 2 (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	c.start();
@@ -76,7 +68,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -86,7 +78,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "list <= 1000000/2 (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	c.start();
@@ -96,7 +88,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -106,7 +98,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "list[list <= 1000000/2] (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	c.start();
@@ -116,7 +108,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -126,7 +118,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "list(1,0,2) == list[1:][::2] (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	c.start();
@@ -136,7 +128,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -146,7 +138,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "list.sort(counter % 2) (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	c.start();
@@ -156,7 +148,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (B):" << (mem1 - mem0) << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
@@ -166,7 +158,7 @@ int main(int argc, char const *argv[])
 	cout << "==========================" << endl;
 
 	cout << "list.in(ListItem<size_t>(counter)) (do 100 times)" << endl;
-	mem0 = getMemoryUsage();
+	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	c.start();
@@ -176,7 +168,7 @@ int main(int argc, char const *argv[])
 	c.stop();
 	counter = 0;
 
-	mem1 = getMemoryUsage();
+	mem1 = getPeakRSS();
 	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
 	cout << "Spen mem (B):" << (mem1 - mem0) << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
