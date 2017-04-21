@@ -14,130 +14,66 @@ SWAP: 4GB
 
 ```
 Initlize (do 1000000 times).
-Mem before (KB):3048
-Mem after (KB):3048
-Use mem (KB):0
-time (s): 0
-time (ms): 41
-time (us): 41925
-==========================
-Clean and insert 1000000 items (do 100 times)
-Mem before (KB):3048
-Mem after (MB):33
-Use mem (MB):30
-time (s): 6
-time (ms): 5535
-time (us): 5534176
-==========================
-list *= 2 (do 100 times)
-Mem before (MB):33
-Mem after (MB):33
-Use mem (MB):0
-time (s): 0
-time (ms): 615
-time (us): 615704
-==========================
-list <= 1000000/2 (do 100 times)
-Mem before (MB):33
-Mem after (MB):63
-Use mem (MB):30
-time (s): 5
-time (ms): 5047
-time (us): 5047720
-==========================
-list[list <= 1000000/2] (do 100 times)
-Mem before (MB):63
-Mem after (MB):94
-Use mem (MB):30
-time (s): 12
-time (ms): 11836
-time (us): 11835917
-==========================
-list(1,0,2) == list[1:][::2] (do 100 times)
-Mem before (MB):94
-Mem after (MB):94
-Use mem (MB):0
-time (s): 4
-time (ms): 3867
-time (us): 3866158
-==========================
-list.sort(counter % 2) (do 100 times)
-Mem before (MB):94
-Mem after (MB):94
-Use mem (B):0
-time (s): 1
-time (ms): 674
-time (us): 673004
-==========================
-list.in(ListItem<size_t>(counter)) (do 100 times)
-Mem before (MB):94
-Mem after (MB):94
-Use mem (B):0
-time (s): 0
-time (ms): 549
-time (us): 549474
-root@test:~/DataStructure/list/perf_test# ./perf_test
-Initlize (do 1000000 times).
-Mem before (KB):3048
-Mem after (KB):3048
+Mem before (KB):2884
+Mem after (KB):2884
 Use mem (KB):0
 time (s): 0
 time (ms): 42
-time (us): 42076
+time (us): 42435
 ==========================
 Clean and insert 1000000 items (do 100 times)
-Mem before (KB):3048
+Mem before (KB):2884
 Mem after (MB):33
 Use mem (MB):30
-time (s): 6
-time (ms): 5647
-time (us): 5646414
+time (s): 5
+time (ms): 5578
+time (us): 5578535
 ==========================
 list *= 2 (do 100 times)
 Mem before (MB):33
 Mem after (MB):33
 Use mem (MB):0
 time (s): 1
-time (ms): 595
-time (us): 594617
+time (ms): 602
+time (us): 601787
 ==========================
 list <= 1000000/2 (do 100 times)
 Mem before (MB):33
 Mem after (MB):63
 Use mem (MB):30
 time (s): 5
-time (ms): 5113
-time (us): 5113838
+time (ms): 4975
+time (us): 4974869
 ==========================
 list[list <= 1000000/2] (do 100 times)
 Mem before (MB):63
-Mem after (MB):94
-Use mem (MB):30
-time (s): 12
-time (ms): 11822
-time (us): 11821090
+Mem after (MB):63
+Use mem (MB):0
+time (s): 11
+time (ms): 11287
+time (us): 11287571
 ==========================
 list(1,0,2) == list[1:][::2] (do 100 times)
-Mem before (MB):94
-Mem after (MB):94
+Mem before (MB):63
+Mem after (MB):63
 Use mem (MB):0
-time (s): 3
-time (ms): 3841
-time (us): 3841109
+time (s): 4
+time (ms): 3716
+time (us): 3715386
 ==========================
 list.sort(counter % 2) (do 100 times)
-Mem before (MB):94
-Mem after (MB):94
+Mem before (MB):63
+Mem after (MB):63
 Use mem (B):0
 time (s): 1
-time (ms): 678
-time (us): 677164
+time (ms): 648
+time (us): 647139
 ==========================
 list.in(ListItem<size_t>(counter)) (do 100 times)
-Mem before (MB):94
-Mem after (MB):94
+Mem before (MB):63
+Mem after (MB):63
 Use mem (B):0
-time (s): 1
+time (s): 0
 time (ms): 544
-time (us): 543210
+time (us): 544732
 ```
