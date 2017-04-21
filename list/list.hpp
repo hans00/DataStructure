@@ -397,7 +397,7 @@ public:
 	}
 
 	// split
-	List<T> operator() (long start=0, long size=1, long d=1) {
+	List<T> operator() (intmax_t start=0, intmax_t size=1, intmax_t d=1) {
 		if (start < 0) start += count;
 		if (size == 0) size = this->count;
 		else if (size < 0) size += count;
