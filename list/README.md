@@ -52,13 +52,15 @@ list.get(3);
 // 3
 list[3]; // equal to get
 // 3
+list[3] = 2; // set index 3
+// 3 => 2
 list.pop(0); // remove by index and return data
 // 1
-// [1, 2, 3, 4, 1, 1]
+// [1, 2, 2, 4, 1, 1]
 list.pop(ListItem<int>(1)); // First matched item
-// [2, 3, 4, 1, 1]
+// [2, 2, 4, 1, 1]
 list.sort(1); // Sort data sort(true) for DESC and false for ASC (default=false)
-// [4, 3, 2, 1, 1]
+// [4, 2, 2, 1, 1]
 list.clean();
 // []
 ```

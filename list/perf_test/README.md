@@ -2,78 +2,87 @@ I sacrifice a little bit of performance to get better memory management.
 
 ## Environments
 
-OS: Ubuntu 16.04 (PVE-LXC)
-
-CPU: E5-2630 v3 (4 Core)
-
-RAM: 8GB
-
-SWAP: 4GB
+MacBook Air (Early 2014)
 
 ## Result data:
 
 ```
 Initlize (do 1000000 times).
-Mem before (KB):2884
-Mem after (KB):2884
-Use mem (KB):0
+Mem before (KB):672
+Mem after (KB):712
+Use mem (KB):40
 time (s): 0
-time (ms): 42
-time (us): 42435
+time (ms): 130
+time (us): 130052
+
 ==========================
+
 Clean and insert 1000000 items (do 100 times)
-Mem before (KB):2884
-Mem after (MB):33
-Use mem (MB):30
-time (s): 5
-time (ms): 5578
-time (us): 5578535
+Mem before (KB):712
+Mem after (MB):34
+Use mem (MB):33
+time (s): 24
+time (ms): 23303
+time (us): 23302968
+
 ==========================
+
 list *= 2 (do 100 times)
-Mem before (MB):33
-Mem after (MB):33
-Use mem (MB):0
+Mem before (MB):34
+Mem after (MB):34
+Use mem (B):0
 time (s): 1
-time (ms): 602
-time (us): 601787
+time (ms): 1000
+time (us): 999607
+
 ==========================
+
 list <= 1000000/2 (do 100 times)
-Mem before (MB):33
-Mem after (MB):63
+Mem before (MB):34
+Mem after (MB):65
 Use mem (MB):30
-time (s): 5
-time (ms): 4975
-time (us): 4974869
+time (s): 24
+time (ms): 24723
+time (us): 24723972
+
 ==========================
+
 list[list <= 1000000/2] (do 100 times)
-Mem before (MB):63
-Mem after (MB):63
-Use mem (MB):0
-time (s): 11
-time (ms): 11287
-time (us): 11287571
+Mem before (MB):65
+Mem after (MB):70
+Use mem (MB):5
+time (s): 45
+time (ms): 45130
+time (us): 45130900
+
 ==========================
-list(1,0,2) == list[1:][::2] (do 100 times)
-Mem before (MB):63
-Mem after (MB):63
-Use mem (MB):0
-time (s): 4
-time (ms): 3716
-time (us): 3715386
+
+list(1,0,2) same list[1:][::2] in py (do 100 times)
+Mem before (MB):70
+Mem after (MB):70
+Use mem (B):0
+time (s): 14
+time (ms): 13478
+time (us): 13477830
+
 ==========================
+
 list.sort(counter % 2) (do 100 times)
-Mem before (MB):63
-Mem after (MB):63
+Mem before (MB):70
+Mem after (MB):70
 Use mem (B):0
 time (s): 1
-time (ms): 648
-time (us): 647139
+time (ms): 1076
+time (us): 1076595
+
 ==========================
+
 list.in(ListItem<size_t>(counter)) (do 100 times)
-Mem before (MB):63
-Mem after (MB):63
+Mem before (MB):70
+Mem before (MB):70
+Mem after (MB):70
 Use mem (B):0
-time (s): 0
-time (ms): 544
-time (us): 544732
+time (s): 1
+time (ms): 764
+time (us): 763081
 ```

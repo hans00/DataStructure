@@ -44,8 +44,6 @@ public:
 		while (count > 0) {
 			pop_back();
 		}
-		cursor = 0;
-		cursor_item = list_nullptr;
 	}
 
 	void append_back(T data) {
@@ -68,6 +66,9 @@ public:
 			first->prev = new ListItem<T>(data);
 			first->prev->next = first;
 			first = first->prev;
+			if (cursor_item != list_nullptr) {
+				cursor_item = cursor_item->prev;
+			}
 		}
 		count++;
 	}
@@ -81,6 +82,10 @@ public:
 		delete last->next;
 		last->next = list_nullptr;
 		count--;
+		if (cursor >= count) {
+			cursor = 0;
+			cursor_item = list_nullptr;
+		}
 		if (count == 0) first = last = list_nullptr;
 		return tmp;
 	}
@@ -131,11 +136,11 @@ public:
 		throw std::invalid_argument( "Not found." );
 	}
 
-	T get(size_t index) {
+	T& get(size_t index) {
 		if (count == 0 || index >= count) {
 			throw std::invalid_argument( "Out of index. (get)" );
 		}
-		if (cursor > count || cursor_item == list_nullptr) {
+		if (cursor >= count || cursor_item == list_nullptr) {
 			if (index >= count/2) {
 				cursor = count-1;
 				cursor_item = last;
@@ -145,15 +150,14 @@ public:
 			}
 		}
 		if (index > cursor) {
-			for (size_t i=cursor; i < index; i++) {
+			for (; cursor < index; ++cursor) {
 				cursor_item = cursor_item->next;
 			}
 		} else if (index < cursor) {
-			for (size_t i=cursor; i > index; i--) {
+			for (; cursor > index; --cursor) {
 				cursor_item = cursor_item->prev;
 			}
 		}
-		cursor = index;
 		return cursor_item->data;
 	}
 
@@ -223,7 +227,7 @@ public:
 		}
 	}
 
-	const T operator[] (size_t n) {
+	T& operator[] (size_t n) {
 		return get(n);
 	}
 

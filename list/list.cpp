@@ -129,5 +129,11 @@ int main(int argc, char const *argv[])
 
 	cout << list2 << endl;
 
+	cout << "list2[0] = 0" << endl;
+
+	list2[0] = 0;
+
+	cout << list2 << endl;
+
 	return 0;
 }

@@ -5,175 +5,123 @@
 #include "memory.hpp"
 
 using namespace std;
-int main(int argc, char const *argv[])
+
+typedef void(*ReportFunc)();
+
+struct Mem_Data
 {
-	size_t counter = 0;
+	Mem_Data(int m,string u): mem(m), unit(u) {};
+	unsigned int mem;
+	string unit;
+};
+
+Mem_Data parse_mem(long mem) {
+	if (mem >= 1024*1024*1024)
+		return Mem_Data(mem/1024/1024/1024, "GB");
+	else if (mem >= 1024*1024)
+		return Mem_Data(mem/1024/1024, "MB");
+	else if (mem >= 1024)
+		return Mem_Data(mem/1024, "KB");
+	else
+		return Mem_Data(mem, "B");
+}
+
+void report(ReportFunc func, size_t run) {
+	static platformstl::performance_counter c;
 	long mem0, mem1;
-	platformstl::performance_counter c;
-
-	cout << "Initlize (do 1000000 times)." << endl;
-
 	mem0 = getPeakRSS();
-	cout << "Mem before (KB):" << mem0/1024 << endl;
-
+	Mem_Data mem0_p = parse_mem(mem0);
+	cout << "Mem before (" << mem0_p.unit << "):" << mem0_p.mem << endl;
 	c.start();
-	while (++counter < 1000000) {
-		delete new List<size_t>();
-	}
+	while (run--) func();
 	c.stop();
-	counter = 0;
-
 	mem1 = getPeakRSS();
-	cout << "Mem after (KB):" << mem1/1024 << endl;
-	cout << "Use mem (KB):" << (mem1 - mem0)/1024 << endl;
+	Mem_Data mem1_p = parse_mem(mem1);
+	cout << "Mem after (" << mem1_p.unit << "):" << mem1_p.mem << endl;
+	Mem_Data memd_p = parse_mem(mem1 - mem0);
+	cout << "Use mem (" << memd_p.unit << "):" << memd_p.mem << endl;
 	cout << "time (s): " << c.get_seconds() << endl;
 	cout << "time (ms): " << c.get_milliseconds() << endl;
 	cout << "time (us): " << c.get_microseconds() << endl;
+}
 
-	List<size_t> list;
+List<size_t> list;
 
-	cout << "==========================" << endl;
+int main(int argc, char const *argv[])
+{
+	long mem0, mem1;
+	platformstl::performance_counter c;
+	size_t counter = 0;
+
+	cout << endl << "Initlize (do 1000000 times)." << endl;
+
+	report( [] () {
+		delete new List<size_t>();
+	}, 1000000);
+
+	cout << endl << "==========================" << endl << endl;
 
 	cout << "Clean and insert 1000000 items (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (KB):" << mem0/1024 << endl;
-
-	c.start();
-	while (++counter < 100) {
+	
+	report( [] () {
 		list.clean();
 		for (size_t i = 0; i < 1000000; ++i) {
 			list << i;
 		}
-	}
-	c.stop();
-	counter = 0;
+	}, 100);
 
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
-
-	cout << "==========================" << endl;
+	cout << endl << "==========================" << endl << endl;
 
 	cout << "list *= 2 (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
-
-	c.start();
-	while (++counter < 100) {
+	
+	report( [] () {
 		list *= 2;
-	}
-	c.stop();
-	counter = 0;
+	}, 100);
 
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
-
-	cout << "==========================" << endl;
+	cout << endl << "==========================" << endl << endl;
 
 	cout << "list <= 1000000/2 (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
-	c.start();
-	while (++counter < 100) {
+	report( [] () {
 		list <= 1000000/2;
-	}
-	c.stop();
-	counter = 0;
+	}, 100);
 
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
-
-	cout << "==========================" << endl;
+	cout << endl << "==========================" << endl << endl;
 
 	cout << "list[list <= 1000000/2] (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
-	c.start();
-	while (++counter < 100) {
+	report( [] () {
 		list[list <= 1000000/2];
-	}
-	c.stop();
-	counter = 0;
+	}, 100);
 
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
+	cout << endl << "==========================" << endl << endl;
 
-	cout << "==========================" << endl;
+	cout << "list(1,0,2) same list[1:][::2] in py (do 100 times)" << endl;
 
-	cout << "list(1,0,2) == list[1:][::2] (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
-
-	c.start();
-	while (++counter < 100) {
+	report( [] () {
 		list(1,0,2);
-	}
-	c.stop();
-	counter = 0;
+	}, 100);
 
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (MB):" << (mem1 - mem0)/1024/1024 << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
-
-	cout << "==========================" << endl;
+	cout << endl << "==========================" << endl << endl;
 
 	cout << "list.sort(counter % 2) (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
-	c.start();
-	while (++counter < 100) {
-		list.sort(counter % 2);
-	}
-	c.stop();
-	counter = 0;
+	report( [] () {
+		static bool x = 0;
+		x = !x;
+		list.sort(x);
+	}, 100);
 
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (B):" << (mem1 - mem0) << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
-
-	cout << "==========================" << endl;
+	cout << endl << "==========================" << endl << endl;
 
 	cout << "list.in(ListItem<size_t>(counter)) (do 100 times)" << endl;
 	mem0 = getPeakRSS();
 	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
-	c.start();
-	while (++counter < 100) {
-		list.in(ListItem<size_t>(counter));
-	}
-	c.stop();
-	counter = 0;
-
-	mem1 = getPeakRSS();
-	cout << "Mem after (MB):" << mem1/1024/1024 << endl;
-	cout << "Use mem (B):" << (mem1 - mem0) << endl;
-	cout << "time (s): " << c.get_seconds() << endl;
-	cout << "time (ms): " << c.get_milliseconds() << endl;
-	cout << "time (us): " << c.get_microseconds() << endl;
+	report( [] () {
+		static size_t x = 0;
+		list.in(ListItem<size_t>(x++));
+	}, 100);
 
 	return 0;
 }
