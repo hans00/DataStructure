@@ -228,15 +228,19 @@ public:
 	}
 
 	List<T> operator[] (List<bool> blist) {
+		if (count != blist.size()) {
+			throw std::invalid_argument( "Not equal size." );
+		}
 		List<T> tmp;
 		cursor = 0;
 		cursor_item = first;
-		for (size_t i=0; i < count; i++) {
-			if (blist[i]) {
+		while (blist.size()) {
+			if (blist.pop(0)) {
 				tmp.append_back(cursor_item->data);
 			}
 			cursor_item = cursor_item->next;
 		}
+		cursor = 0;
 		cursor_item = list_nullptr;
 		return tmp;
 	}
