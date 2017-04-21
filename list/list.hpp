@@ -36,10 +36,16 @@ public:
 		count = 0;
 	}
 
+	~List() {
+		clean();
+	}
+
 	void clean() {
 		while (count > 0) {
 			pop_back();
 		}
+		cursor = 0;
+		cursor_item = list_nullptr;
 	}
 
 	void append_back(T data) {
@@ -200,8 +206,21 @@ public:
 		}
 	}
 
+	void set(size_t i, T d) {
+		get(i);
+		cursor_item->data = d;
+	}
+
 	size_t size() {
 		return this->count;
+	}
+
+	// set
+	void operator= (List<T> t) {
+		this->clean();
+		while(t.size()) {
+			this->append_back(t.pop(0));
+		}
 	}
 
 	const T operator[] (size_t n) {
@@ -209,15 +228,19 @@ public:
 	}
 
 	List<T> operator[] (List<bool> blist) {
+		if (count != blist.size()) {
+			throw std::invalid_argument( "Not equal size." );
+		}
 		List<T> tmp;
 		cursor = 0;
 		cursor_item = first;
-		for (size_t i=0; i < count; i++) {
-			if (blist[i]) {
+		while (blist.size()) {
+			if (blist.pop(0)) {
 				tmp.append_back(cursor_item->data);
 			}
 			cursor_item = cursor_item->next;
 		}
+		cursor = 0;
 		cursor_item = list_nullptr;
 		return tmp;
 	}
