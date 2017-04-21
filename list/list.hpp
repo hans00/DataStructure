@@ -36,10 +36,16 @@ public:
 		count = 0;
 	}
 
+	~List() {
+		clean();
+	}
+
 	void clean() {
 		while (count > 0) {
 			pop_back();
 		}
+		cursor = 0;
+		cursor_item = list_nullptr;
 	}
 
 	void append_back(T data) {
@@ -200,8 +206,21 @@ public:
 		}
 	}
 
+	void set(size_t i, T d) {
+		get(i);
+		cursor_item->data = d;
+	}
+
 	size_t size() {
 		return this->count;
+	}
+
+	// set
+	void operator= (List<T> t) {
+		this->clean();
+		while(t.size()) {
+			this->append_back(t.pop(0));
+		}
 	}
 
 	const T operator[] (size_t n) {
