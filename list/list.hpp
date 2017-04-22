@@ -47,6 +47,9 @@ public:
 	}
 
 	void append_back(T data) {
+		if (count == SIZE_MAX) {
+			throw std::invalid_argument( "Full of size." );
+		}
 		if (count == 0) {
 			first = last = new ListItem<T>;
 			first->data = data;
@@ -59,6 +62,9 @@ public:
 	}
 
 	void append_front(T data) {
+		if (count == SIZE_MAX) {
+			throw std::invalid_argument( "Full of size." );
+		}
 		if (count == 0) {
 			first = last = new ListItem<T>;
 			first->data = data;
@@ -208,11 +214,6 @@ public:
 				}
 			}
 		}
-	}
-
-	void set(size_t i, T d) {
-		get(i);
-		cursor_item->data = d;
 	}
 
 	size_t size() {
