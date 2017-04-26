@@ -61,6 +61,8 @@ list.pop(ListItem<int>(1)); // First matched item
 // [2, 2, 4, 1, 1]
 list.sort(1); // Sort data sort(true) for DESC and false for ASC (default=false)
 // [4, 2, 2, 1, 1]
+list.insert(1, 3); // Insert data in the middle
+// [4, 3, 2, 2, 1, 1]
 list.clean();
 // []
 ```

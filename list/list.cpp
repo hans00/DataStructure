@@ -135,5 +135,11 @@ int main(int argc, char const *argv[])
 
 	cout << list2 << endl;
 
+	cout << "list2.insert(2, 4)" << endl;
+
+	list2.insert(2, 4);
+
+	cout << list2 << endl;
+
 	return 0;
 }

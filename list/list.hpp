@@ -46,6 +46,22 @@ public:
 		}
 	}
 
+	void insert(size_t index, T data) {
+		if (index == 0) append_front(data);
+		if (index == count) append_back(data);
+		get(index);
+		ListItem<T> *prev = cursor_item->prev, *next = cursor_item;
+		cursor_item->prev = new ListItem<T>(data);
+		cursor_item = cursor_item->prev;
+		cursor_item->prev = prev;
+		cursor_item->next = next;
+		prev->next = cursor_item;
+		next->prev = cursor_item;
+		cursor_item = list_nullptr;
+		cursor = 0;
+		count++;
+	}
+
 	void append_back(T data) {
 		if (count == SIZE_MAX) {
 			throw std::invalid_argument( "Full of size." );
