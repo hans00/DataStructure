@@ -49,9 +49,7 @@ List<size_t> list;
 
 int main(int argc, char const *argv[])
 {
-	long mem0, mem1;
 	platformstl::performance_counter c;
-	size_t counter = 0;
 
 	cout << endl << "Initlize (do 1000000 times)." << endl;
 
@@ -115,8 +113,6 @@ int main(int argc, char const *argv[])
 	cout << endl << "==========================" << endl << endl;
 
 	cout << "list.in(ListItem<size_t>(counter)) (do 100 times)" << endl;
-	mem0 = getPeakRSS();
-	cout << "Mem before (MB):" << mem0/1024/1024 << endl;
 
 	report( [] () {
 		static size_t x = 0;

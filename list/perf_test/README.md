@@ -8,81 +8,80 @@ MacBook Air (Early 2014)
 
 ```
 Initlize (do 1000000 times).
-Mem before (KB):672
-Mem after (KB):712
-Use mem (KB):40
+Mem before (MB):1
+Mem after (MB):1
+Use mem (KB):52
 time (s): 0
-time (ms): 130
-time (us): 130052
+time (ms): 131
+time (us): 131817
 
 ==========================
 
 Clean and insert 1000000 items (do 100 times)
-Mem before (KB):712
-Mem after (MB):34
-Use mem (MB):33
-time (s): 24
-time (ms): 23303
-time (us): 23302968
+Mem before (MB):1
+Mem after (MB):36
+Use mem (MB):34
+time (s): 22
+time (ms): 22320
+time (us): 22320330
 
 ==========================
 
 list *= 2 (do 100 times)
-Mem before (MB):34
-Mem after (MB):34
+Mem before (MB):36
+Mem after (MB):36
 Use mem (B):0
 time (s): 1
-time (ms): 1000
-time (us): 999607
+time (ms): 693
+time (us): 692024
 
 ==========================
 
 list <= 1000000/2 (do 100 times)
-Mem before (MB):34
-Mem after (MB):65
-Use mem (MB):30
-time (s): 24
-time (ms): 24723
-time (us): 24723972
+Mem before (MB):36
+Mem after (MB):69
+Use mem (MB):32
+time (s): 23
+time (ms): 23313
+time (us): 23313658
 
 ==========================
 
 list[list <= 1000000/2] (do 100 times)
-Mem before (MB):65
-Mem after (MB):70
-Use mem (MB):5
+Mem before (MB):69
+Mem after (MB):80
+Use mem (MB):11
 time (s): 45
-time (ms): 45130
-time (us): 45130900
+time (ms): 44415
+time (us): 44414584
 
 ==========================
 
 list(1,0,2) same list[1:][::2] in py (do 100 times)
-Mem before (MB):70
-Mem after (MB):70
+Mem before (MB):80
+Mem after (MB):80
 Use mem (B):0
-time (s): 14
-time (ms): 13478
-time (us): 13477830
+time (s): 13
+time (ms): 13293
+time (us): 13293636
 
 ==========================
 
 list.sort(counter % 2) (do 100 times)
-Mem before (MB):70
-Mem after (MB):70
+Mem before (MB):80
+Mem after (MB):80
 Use mem (B):0
 time (s): 1
-time (ms): 1076
-time (us): 1076595
+time (ms): 761
+time (us): 760521
 
 ==========================
 
 list.in(ListItem<size_t>(counter)) (do 100 times)
-Mem before (MB):70
-Mem before (MB):70
-Mem after (MB):70
+Mem before (MB):80
+Mem after (MB):80
 Use mem (B):0
-time (s): 1
-time (ms): 764
-time (us): 763081
+time (s): 0
+time (ms): 545
+time (us): 545218
 ```
